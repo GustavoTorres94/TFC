@@ -1,7 +1,11 @@
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
+import Email from '../entity/email';
+import Password from '../entity/password';
+import Auth from '../utils/auth';
 import UserModel from '../models/users.model';
 import { IUser } from '../interfaces/IUser';
+import { UserErrors, UserSuccess } from '../types/generalTypes';
+
+const error = 'Invalid email or password';
 
 export default class UsersService {
   constructor(
@@ -14,19 +18,19 @@ export default class UsersService {
   }
 
   public async login(email: string, password: string):
-  Promise<{ status: number, data: string | null }> {
-    if (!email || !password) {
-      return { status: 400, data: null };
+  Promise<UserErrors | UserSuccess> {
+    if (!email || !password) return { status: 400, data: { message: 'All fields must be filled' } };
+    const isEmailValid = await Email.verifyEmail(email);
+    console.log(isEmailValid);
+    const isPasswordValid = Password.verifyLength(password);
+    if (!isEmailValid || !isPasswordValid) {
+      return { status: 401, data: { message: error } };
     }
     const user = await this.userModel.getUserByEmail(email);
-    if (!user) {
-      return { status: 404, data: null };
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return { status: 401, data: null };
-    }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
-    return { status: 200, data: token };
+    if (!user) return { status: 401, data: { message: error } };
+    const isMatch = await Auth.comparePasswords(password, user.password);
+    if (!isMatch) return { status: 401, data: { message: error } };
+    const token = await Auth.generateToken(user.id);
+    return { status: 200, data: { token } };
   }
 }
