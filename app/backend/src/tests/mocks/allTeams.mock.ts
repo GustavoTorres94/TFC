@@ -149,3 +149,4 @@ export const teamsResponseFromDbMock = [
     "teamName": "São Paulo"
   }
 ]
+

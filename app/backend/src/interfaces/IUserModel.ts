@@ -5,4 +5,5 @@ export interface IUserModel {
   getAllUsers(): Promise<IUser[]>;
   getUserByEmail(email: string): Promise<IUser | null>;
   login(email: string, password: string): Promise<TokenType | null | Error>;
+  getUserById(id: string): Promise<IUser | null>;
 }

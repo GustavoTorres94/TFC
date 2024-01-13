@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 
 export default class Auth {
   public static async generateToken(userId: number): Promise<string> {
+    console.log(process.env.JWT_SECRET);
     const token = jwt.sign({ id: userId }, process.env.JWT_SECRET as string);
     return token;
   }

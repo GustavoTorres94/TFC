@@ -58,6 +58,26 @@ describe('testing controller', () => {
     expect(chaiHttpResponse.status).to.be.equal(404);
     expect(chaiHttpResponse.body).to.be.deep.equal(null);
   });
+  it('test if teamcontroller.getAllTeams is returning 500 error when service throws error', async () => {
+    sinon.stub(TeamsService.prototype, 'getAllTeams').throws(new Error('error'));
+    
+    let chaiHttpResponse = await chai
+    .request(app)
+    .get('/teams');
+
+    expect(chaiHttpResponse.status).to.be.equal(500);
+    expect(chaiHttpResponse.body).to.be.deep.equal({ message: 'error' });
+  });
+  it('test if teamcontroller.getTeamById is returning 500 error when service throws error', async () => {
+    sinon.stub(TeamsService.prototype, 'getTeamById').throws(new Error('error'));
+    
+    let chaiHttpResponse = await chai
+    .request(app)
+    .get('/teams/1');
+
+    expect(chaiHttpResponse.status).to.be.equal(500);
+    expect(chaiHttpResponse.body).to.be.deep.equal({ message: 'error' });
+  });
 });
 
 /**

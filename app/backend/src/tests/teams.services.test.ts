@@ -3,7 +3,6 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import TeamModel from '../database/models/teamsModel';
 import TeamsModel from '../models/teams.model';
 import { TeamsService } from '../services';
 
@@ -36,5 +35,17 @@ describe('testing sevices', () => {
 
     expect(status).to.be.equal(200);
     expect(data).to.be.equal(teamByIdMock.data);
+  });
+
+  it('testing if TeamService is returning error when called with invalid id', async () => {
+    sinon.stub(TeamsModel.prototype, 'getTeamById').resolves(null);
+
+    const teamsService = new TeamsService();
+    const id = '100';
+
+    const { status, data } = await teamsService.getTeamById(id);
+
+    expect(status).to.be.equal(404);
+    expect(data).to.be.equal(null);
   });
 });

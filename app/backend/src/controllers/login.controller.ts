@@ -19,4 +19,17 @@ export default class LoginController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  public async getRole(req: Request, res: Response): Promise<Response> {
+    try {
+      const { decoded } = req.body;
+      console.log('controllleeeet', decoded);
+
+      const { status, data } = await this.loginService.getRole(decoded);
+
+      return res.status(status).json(data);
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
