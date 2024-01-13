@@ -5,6 +5,7 @@ import {
   InferCreationAttributes,
   CreationOptional,
 } from 'sequelize';
+// import MatchesModel from './matchesModel';
 
 import db from '.';
 
@@ -31,6 +32,16 @@ TeamModel.init(
     timestamps: false,
     underscored: true,
   },
+
 );
+
+// TeamModel.belongsTo(MatchesModel, {
+//   foreignKey: 'homeTeamId',
+//   as: 'homeTeam',
+// });
+// TeamModel.belongsTo(MatchesModel, {
+//   foreignKey: 'awayTeamId',
+//   as: 'awayTeam',
+// });
 
 export default TeamModel;
