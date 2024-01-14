@@ -25,3 +25,16 @@ export type UserRole = {
 export type DecodedType = {
   id: string;
 };
+
+export type CreatedMatchType = {
+  id: number,
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+};
+
+export type MatchErrorsType = {
+  message: string,
+};

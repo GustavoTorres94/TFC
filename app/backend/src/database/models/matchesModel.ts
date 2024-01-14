@@ -61,14 +61,12 @@ MatchesModel.init(
   },
 );
 
-// const TeamModel = () => import('./teamsModel');
-
-MatchesModel.hasMany(TeamModel, {
+MatchesModel.belongsTo(TeamModel, {
   foreignKey: 'homeTeamId',
   as: 'homeTeam',
 });
 
-MatchesModel.hasMany(TeamModel, {
+MatchesModel.belongsTo(TeamModel, {
   foreignKey: 'awayTeamId',
   as: 'awayTeam',
 });
