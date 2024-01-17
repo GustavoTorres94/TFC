@@ -66,32 +66,4 @@ export default class LeaderBoardEntity {
       return obj;
     });
   }
-
-  public static async totalPoints(): Promise<number> {
-    return 0;
-  }
-
-  public static async totalGames(): Promise<number> {
-    return 0;
-  }
-
-  public static async totalVictories(): Promise<number> {
-    return 0;
-  }
-
-  public static async totalDraws(): Promise<number> {
-    return 0;
-  }
-
-  public static async totalLosses(): Promise<number> {
-    return 0;
-  }
-
-  public static async goalsFavorite(): Promise<number> {
-    return 0;
-  }
-
-  public static async goasOwned(): Promise<number> {
-    return 0;
-  }
 }

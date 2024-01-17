@@ -26,6 +26,10 @@ export type DecodedType = {
   id: string;
 };
 
+export type InternalErrorType = {
+  message: string;
+};
+
 export type CreatedMatchType = {
   id: number,
   homeTeamId: number,

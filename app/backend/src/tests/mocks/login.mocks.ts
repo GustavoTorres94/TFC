@@ -87,6 +87,20 @@ export const tokenNotFoundMock = {
   },
 };
 
+export const invalidTokenMock = {
+  status: 401,
+  data: {
+    message: 'Token must be a valid token',
+  },
+};
+
+export const loginErrorMock = {
+  status: 500,
+  data: {
+    message: 'Internal server error',
+  },
+};
+
 export const loginOkMock = {
   status: 200,
   data: {

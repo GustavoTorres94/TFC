@@ -1,14 +1,14 @@
 import MatchModel from '../models/matches.model';
 import TeamsModel from '../database/models/teamsModel';
 import { IMatches } from '../interfaces/IMatches';
-import { CreatedMatchType, MatchErrorsType } from '../types/generalTypes';
+import { CreatedMatchType, MatchErrorsType, InternalErrorType } from '../types/generalTypes';
 
 export default class MatchesService {
   constructor(
     private matchModel = new MatchModel(),
   ) {}
 
-  public async getAllMatches(): Promise<{ status: number, data: IMatches[] }> {
+  public async getAllMatches(): Promise<{ status: number, data: IMatches[] | InternalErrorType }> {
     const matches = await this.matchModel.getAllMatches();
     return { status: 200, data: matches };
   }
@@ -21,7 +21,8 @@ export default class MatchesService {
     return { status: 200, data: match };
   }
 
-  public async getMatchesInProgress(value: string): Promise<{ status: number, data: IMatches[] }> {
+  public async getMatchesInProgress(value: string)
+    : Promise<{ status: number, data: IMatches[] | InternalErrorType }> {
     const matches = await this.matchModel.getMatchesInProgress(value);
     return { status: 200, data: matches };
   }

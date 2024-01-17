@@ -23,7 +23,6 @@ export default class LoginController {
   public async getRole(req: Request, res: Response): Promise<Response> {
     try {
       const { decoded } = req.body;
-      console.log('controllleeeet', decoded);
 
       const { status, data } = await this.loginService.getRole(decoded);
 

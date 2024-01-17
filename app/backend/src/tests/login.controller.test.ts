@@ -3,6 +3,7 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
 
 import { app } from '../app';
 
@@ -14,6 +15,8 @@ import { loginSuccessMock,
   missingFieldsMock,
   userRoleMock,
   tokenNotFoundMock,
+  loginErrorMock,
+  invalidTokenMock,
 } from './mocks/login.mocks';
 
 chai.use(chaiHttp);
@@ -28,6 +31,13 @@ describe('testing controller', () => {
   beforeEach(() => {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
+  });
+
+  let verifyStub: sinon.SinonStub;
+
+  beforeEach(() => {
+    verifyStub = sinon.stub();
+    sinon.replace(jwt, 'verify', verifyStub);
   });
   
   afterEach(sinon.restore);
@@ -103,22 +113,44 @@ describe('testing controller', () => {
     expect(chaiHttpResponse.body).to.be.deep.equal(tokenNotFoundMock.data);
   });
   
-  // it.only('testing if LoginController.getRole is working properly', async () => {
-  //   // const req = {
-  //   //   headers: {
-  //     //     authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzA1MDg5MzgwfQ.maEtrCBx2HjyCtuMj5BRg0kJ0pxVYslingpyDGWu1b4',
-  //     //   },
-  //     // } as Request;
-  //     sinon.stub(LoginService.prototype, 'getRole').resolves(userRoleMock);
+  it('testing if LoginController.getRole is working properly', async () => {
+      sinon.stub(LoginService.prototype, 'getRole').resolves(userRoleMock);
+      verifyStub.returns({ id: 2, iat: 1705089380 });
       
-  //     let chaiHttpResponse = await chai
-  //     .request(app)
-  //     .get('/login/role')
-  //     .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzA1MDg5MzgwfQ.maEtrCBx2HjyCtuMj5BRg0kJ0pxVYslingpyDGWu1b4');
-  //     console.log(chaiHttpResponse.body);
+      let chaiHttpResponse = await chai
+      .request(app)
+      .get('/login/role')
+      .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzA1MDg5MzgwfQ.maEtrCBx2HjyCtuMj5BRg0kJ0pxVYslingpyDGWu1b4');
 
-  //   expect(chaiHttpResponse.status).to.be.equal(200);
-  //   expect(chaiHttpResponse.body).to.be.deep.equal(userRoleMock.data);
-  // });
+    expect(chaiHttpResponse.status).to.be.equal(200);
+    expect(chaiHttpResponse.body).to.be.deep.equal(userRoleMock.data);
+  });
 
+  it('testing if LoginController.getRole is returning error when called with invalid token', async () => {
+    sinon.stub(LoginService.prototype, 'getRole').resolves(invalidTokenMock);
+    verifyStub.throws(new Error('Invalid token'));
+    
+    let chaiHttpResponse = await chai
+    .request(app)
+    .get('/login/role')
+    .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzA1MDg5MzgwfQ.maEtrCBx2HjyCtuMj5BRg0kJ0pxVYslingpyDGWu1b4');
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).to.be.deep.equal(invalidTokenMock.data);
+  });
+
+  it('testing internal error', async () => {
+    sinon.stub(LoginService.prototype, 'login').resolves(loginErrorMock);
+    
+    let chaiHttpResponse = await chai
+    .request(app)
+    .post('/login')
+    .send({
+      email: 'jjjj@jjj,com',
+      password: 'secret_user'
+    });
+
+    expect(chaiHttpResponse.status).to.be.equal(500);
+    expect(chaiHttpResponse.body).to.be.deep.equal(loginErrorMock.data);
+  });
 });
