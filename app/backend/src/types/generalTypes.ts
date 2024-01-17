@@ -38,3 +38,41 @@ export type CreatedMatchType = {
 export type MatchErrorsType = {
   message: string,
 };
+
+export type MatchTypeDB = {
+  teamName: string,
+  ownGoals: number,
+  favorGoals: number,
+  loss: number,
+  matches: number,
+  draws: number,
+  wins: number,
+  map: (arg0: (e: any) => {
+    name: any;
+    totalPoints: number;
+    totalGames: any;
+    totalVictories: number;
+    totalDraws: number;
+    totalLosses: number;
+    goalsFavor: number;
+    goalsOwn: number;
+  }) => any;
+};
+
+export type LeaderBoardMatchsType = {
+  teamName: string,
+  ownGoals: number,
+  favorGoals: number,
+  loss: number,
+  matches: number,
+  draws: number,
+  wins: number;
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+};

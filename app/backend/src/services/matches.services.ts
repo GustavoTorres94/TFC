@@ -1,5 +1,4 @@
 import MatchModel from '../models/matches.model';
-// import TeamsModel from '../models/teams.model';
 import TeamsModel from '../database/models/teamsModel';
 import { IMatches } from '../interfaces/IMatches';
 import { CreatedMatchType, MatchErrorsType } from '../types/generalTypes';
