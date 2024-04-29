@@ -80,3 +80,36 @@ export type LeaderBoardMatchsType = {
   goalsFavor: number,
   goalsOwn: number,
 };
+
+export type SortedLeaderboardType = {
+  teamName: string,
+  ownGoals: number,
+  favorGoals: number,
+  loss: number,
+  matches: number,
+  draws: number,
+  wins: number;
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
+};
+
+export type MatchTypeReturn = {
+  efficiency: number;
+  goalsBalance: number;
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+};

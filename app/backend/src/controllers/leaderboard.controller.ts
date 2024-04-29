@@ -6,7 +6,7 @@ export default class LeaderBoardController {
     private leaderboardService = new LeaderBoardService(),
   ) {}
 
-  public async homeStatus(req: Request, res: Response): Promise<Response> {
+  public async homeStatus(_req: Request, res: Response): Promise<Response> {
     try {
       const { status, data } = await this.leaderboardService.homeStatus();
 
@@ -16,9 +16,19 @@ export default class LeaderBoardController {
     }
   }
 
-  public async awayStatus(req: Request, res: Response): Promise<Response> {
+  public async awayStatus(_req: Request, res: Response): Promise<Response> {
     try {
       const { status, data } = await this.leaderboardService.awayStatus();
+
+      return res.status(status).json(data);
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+  public async status(_req: Request, res: Response): Promise<Response> {
+    try {
+      const { status, data } = await this.leaderboardService.status();
 
       return res.status(status).json(data);
     } catch (error: any) {

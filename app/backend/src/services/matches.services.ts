@@ -49,8 +49,6 @@ export default class MatchesService {
     homeTeamGoals: number,
     awayTeamGoals: number,
   ):Promise<{ status: number, data: CreatedMatchType | MatchErrorsType }> {
-    const id = await this.matchModel
-      .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
     const homeTeam = await TeamsModel.findByPk(homeTeamId);
     const awayTeam = await TeamsModel.findByPk(awayTeamId);
     if (!homeTeam?.dataValues.teamName || !awayTeam?.dataValues.teamName) {
@@ -60,6 +58,8 @@ export default class MatchesService {
       return { status: 422,
         data: { message: 'It is not possible to create a match with two equal teams' } };
     }
+    const id = await this.matchModel
+      .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
     const obj = { id, homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: true };
     return { status: 201, data: obj };
   }

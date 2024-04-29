@@ -18,7 +18,6 @@ const { expect } = chai;
 describe('testing middleware', () => {
   afterEach(sinon.restore);
 
-  // const req = {} as unknown as Request;
   const res = {} as Response;
   const next = {} as NextFunction;
 

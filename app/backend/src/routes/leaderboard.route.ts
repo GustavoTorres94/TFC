@@ -11,4 +11,7 @@ leaderboardRouter.get('/home', (_req: Request, res: Response) =>
 leaderboardRouter.get('/away', (_req: Request, res: Response) =>
   leaderBoardController.awayStatus(_req, res));
 
+leaderboardRouter.get('/', (_req: Request, res: Response) =>
+  leaderBoardController.status(_req, res));
+
 export default leaderboardRouter;
