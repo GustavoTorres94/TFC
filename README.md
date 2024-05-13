@@ -1,5 +1,3 @@
-# :construction: README em construção ! :construction:
-
 <h1 align="center"> Trybe Futebol Clube ⚽ </h1>
 
 <div align="center"> 
