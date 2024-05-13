@@ -74,8 +74,9 @@
 ### Funcionalidades
 
 Endpoints:<br>
-/login - { get, post }<br>
+/login - { post }<br>
 /login/role - { get }<br>
+/login/all - { get }<br>
 /teams - { get }<br>
 /teams/:id - { get }<br>
 /matches - { get, post }<br>
