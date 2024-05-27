@@ -32,6 +32,9 @@
 <p>
   <ol>
     <li>
+      <a href="tfc-backend-production-90d1.up.railway.app" target="_blank">LINK DO DEPLOY</a>
+    </li>
+    <li>
       Clone este repositório.
     </li>
     <li>
